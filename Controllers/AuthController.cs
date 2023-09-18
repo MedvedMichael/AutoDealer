@@ -4,6 +4,7 @@ using AutoDealer.Entities.DataTransferObjects.Auth;
 using AutoDealer.Entities.Models.Auth;
 using AutoDealer.JwtFeatures;
 using AutoDealer.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,15 @@ namespace AutoDealer.Controllers
         private readonly IAccountsService accountsService;
         private readonly JwtHandler jwtHandler;
         private readonly UserManager<User> userManager;
+        private readonly IMapper mapper;
 
 
-        public AuthController(IAccountsService accountsService, JwtHandler jwtHandler, UserManager<User> userManager)
+        public AuthController(IAccountsService accountsService, JwtHandler jwtHandler, UserManager<User> userManager, IMapper mapper)
         {
             this.accountsService = accountsService;
             this.jwtHandler = jwtHandler;
             this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         private async Task<string> GenerateToken(User user)
@@ -55,7 +58,7 @@ namespace AutoDealer.Controllers
             {
                 var user = await accountsService.Register(registerDto);
                 var token = await GenerateToken(user);
-                return Ok(new RegistrationResponseDto { IsSuccessfulRegistration = true, Token = token });
+                return Ok(new RegistrationResponseDto { Token = token, User = mapper.Map<UserProfile>(user) });
             }
             catch (AuthException ex)
             {
@@ -70,12 +73,28 @@ namespace AutoDealer.Controllers
             {
                 var user = await accountsService.Login(loginDto);
                 var token = await GenerateToken(user);
-                return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
+                return Ok(new AuthResponseDto { Token = token, User = mapper.Map<UserProfile>(user) });
             }
             catch (Exception)
             {
                 return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
             }
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> Me()
+        {
+            if (User.Identity?.Name is null)
+            {
+                return NotFound();
+            }
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            if (user is null)
+            {
+                return NotFound();
+            }
+            return Ok(mapper.Map<UserProfile>(user));
         }
     }
 }

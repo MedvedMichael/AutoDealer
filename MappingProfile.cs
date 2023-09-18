@@ -20,6 +20,7 @@ namespace AutoDealer
             CreateMap<string, Generation>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src));
 
+            CreateMap<User, UserProfile>();
         }
     }
 }

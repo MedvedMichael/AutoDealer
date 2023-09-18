@@ -1,0 +1,56 @@
+<div class="main-auth-block">
+  <div>
+    <h2 class="login-label">Sign in to your account</h2>
+    <form nz-form [formGroup]="loginForm">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="The input is not valid E-mail!">
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="email" nz-input type="email" placeholder="Login" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input formControlName="password" nz-input type="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <button nz-button type="submit" (click)="onLogin()">Sign in!</button>
+    </form>
+  </div>
+  <div>
+    <h2>Register now!</h2>
+    <form [formGroup]="signUpForm">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="name" nz-input type="text" placeholder="Name" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your password!">
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="surname" nz-input type="text" placeholder="Surname" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="The input is not valid E-mail!">
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="email" nz-input type="email" placeholder="Login" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input formControlName="password" nz-input type="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <button nz-button type="submit" mat-button (click)="onRegister()">Sign up!</button>
+    </form>
+  </div>
+</div>
