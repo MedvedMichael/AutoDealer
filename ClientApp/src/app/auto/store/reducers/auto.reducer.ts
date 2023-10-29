@@ -35,6 +35,7 @@ export interface AutoState {
   engines: Engine[];
   equipments: BaseAutoDto[];
   announcements: SaleAnnouncement[] | null;
+  loading: boolean;
 }
 
 export const initialState: AutoState = {
@@ -44,6 +45,7 @@ export const initialState: AutoState = {
   engines: [],
   equipments: [],
   announcements: null,
+  loading: false,
 };
 
 export const autoReducer = createReducer(

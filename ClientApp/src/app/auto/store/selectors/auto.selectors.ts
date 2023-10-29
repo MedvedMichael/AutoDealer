@@ -32,3 +32,8 @@ export const selectAnnouncements = createSelector(
   selectUserState,
   (state: AutoState) => state.announcements
 );
+
+export const selectAutoLoading = createSelector(
+  selectUserState,
+  (state: AutoState) => state.loading
+);

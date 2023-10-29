@@ -10,8 +10,8 @@ export interface Model extends BaseAutoDto {
 }
 
 export enum FuelType {
-  Petrol = 1,
-  Diesel = 2,
+  Petrol = 0,
+  Diesel = 1,
 }
 
 export const FuelTypeLabel: Record<FuelType, string> = {
@@ -26,10 +26,10 @@ export interface Engine extends BaseAutoDto {
 }
 
 export enum GearboxType {
-  Manual = 1,
-  Automatic = 2,
-  Variator = 3,
-  Robotic = 4,
+  Manual = 0,
+  Automatic = 1,
+  Variator = 2,
+  Robotic = 3,
 }
 
 export const GearboxTypeLabel: Record<GearboxType, string> = {

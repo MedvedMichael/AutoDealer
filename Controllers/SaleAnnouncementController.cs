@@ -17,11 +17,11 @@ namespace AutoDealer.Controllers
 
         private SearchAnnouncementDto ParseSearchAnnouncement(
             int? brandId,
-            int? modelId,
-            int? generationId,
-            int? engineId,
-            int? equipmentId,
-            int? gearboxId,
+            string? models,
+            string? generations,
+            string? engines,
+            string? equipments,
+            string? gearboxes,
             int? yearFrom,
             int? yearTo,
             int? mileageFrom,
@@ -36,12 +36,12 @@ namespace AutoDealer.Controllers
         {
             return new SearchAnnouncementDto
             {
-                BrandId = brandId,
-                ModelId = modelId,
-                GenerationId = generationId,
-                EngineId = engineId,
-                EquipmentId = equipmentId,
-                GearboxId = gearboxId,
+                Brand = brandId,
+                Models = models?.Split(',').Select(int.Parse).ToList(),
+                Generations = generations?.Split(',').Select(int.Parse).ToList(),
+                Engines = engines?.Split(',').Select(int.Parse).ToList(),
+                Equipments = equipments?.Split(',').Select(int.Parse).ToList(),
+                Gearboxes = gearboxes?.Split(',').Select(int.Parse).ToList(),
                 Year = new SearchRange { From = yearFrom, To = yearTo },
                 Mileage = new SearchRange { From = mileageFrom, To = mileageTo },
                 Price = new SearchRange { From = priceFrom, To = priceTo },
@@ -53,12 +53,12 @@ namespace AutoDealer.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetSaleAnnouncements(
-            [FromQuery] int? brandId,
-            [FromQuery] int? modelId,
-            [FromQuery] int? generationId,
-            [FromQuery] int? engineId,
-            [FromQuery] int? equipmentId,
-            [FromQuery] int? gearboxId,
+            [FromQuery] int? brand,
+            [FromQuery] string? models,
+            [FromQuery] string? generations,
+            [FromQuery] string? engines,
+            [FromQuery] string? equipments,
+            [FromQuery] string? gearboxes,
             [FromQuery] int? yearFrom,
             [FromQuery] int? yearTo,
             [FromQuery] int? mileageFrom,
@@ -71,12 +71,12 @@ namespace AutoDealer.Controllers
             [FromQuery] int? ownersCountTo
         )
         {
-            var search = ParseSearchAnnouncement(brandId,
-                modelId,
-                generationId,
-                engineId,
-                equipmentId,
-                gearboxId,
+            var search = ParseSearchAnnouncement(brand,
+                models,
+                generations,
+                engines,
+                equipments,
+                gearboxes,
                 yearFrom,
                 yearTo,
                 mileageFrom,
@@ -91,6 +91,13 @@ namespace AutoDealer.Controllers
             return Ok(saleAnnouncements);
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSaleAnnouncement(int id)
+        {
+            var saleAnnouncement = await saleAnnouncementService.GetSaleAnnouncement(id);
+            return Ok(saleAnnouncement);
+        }
 
     }
 }

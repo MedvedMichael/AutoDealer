@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { State } from './reducers';
 import { selectUserLoading } from './auth/store/selectors/user.selectors';
 import { BehaviorSubject, combineLatest } from 'rxjs';
+import { selectAutoLoading } from './auto/store/selectors/auto.selectors';
+import { selectAnnouncementLoading } from './auto/store/selectors/announcement.selectors';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +18,12 @@ export class AppComponent {
 
   constructor(private store: Store<State>) {
     const userLoading$ = this.store.select(selectUserLoading);
-    combineLatest([userLoading$]).subscribe(([userLoading]) => {
-      this.loading$.next(userLoading);
-    });
+    const announcementLoading$ = this.store.select(selectAnnouncementLoading);
+
+    combineLatest([userLoading$, announcementLoading$]).subscribe(
+      ([userLoading, announcementLoading]) => {
+        this.loading$.next(userLoading || announcementLoading);
+      }
+    );
   }
 }

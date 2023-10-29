@@ -13,7 +13,8 @@ import {
   fetchGenerations,
   fetchModels,
 } from '../../store/actions/auto.actions';
-import { Observable, map, of, startWith } from 'rxjs';
+import { Observable, map, of, startWith, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -32,7 +33,11 @@ export class HomePageComponent implements OnInit {
   generations$ = this.store.select(selectGenerations);
   announcements$ = this.store.select(selectAnnouncements);
 
-  constructor(private fb: FormBuilder, private store: Store<State>) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<State>,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.autoFilterForm = this.fb.group({

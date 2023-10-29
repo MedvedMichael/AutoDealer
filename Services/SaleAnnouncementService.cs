@@ -9,6 +9,7 @@ namespace AutoDealer.Services
     public interface ISaleAnnouncementService
     {
         Task<List<SaleAnnouncementDto>> GetSaleAnnouncements(SearchAnnouncementDto search);
+        Task<SaleAnnouncementDto> GetSaleAnnouncement(int id);
     }
 
     public class SaleAnnouncementService : ISaleAnnouncementService
@@ -33,12 +34,12 @@ namespace AutoDealer.Services
                 .Include(a => a.Engine)
                 .Include(a => a.Equipment)
                 .Include(a => a.Gearbox)
-                .Where(a => search.BrandId == null || a.Model.BrandId == search.BrandId)
-                .Where(a => search.ModelId == null || a.ModelId == search.ModelId)
-                .Where(a => search.GenerationId == null || a.GenerationId == search.GenerationId)
-                .Where(a => search.EngineId == null || a.EngineId == search.EngineId)
-                .Where(a => search.EquipmentId == null || a.EquipmentId == search.EquipmentId)
-                .Where(a => search.GearboxId == null || a.GearboxId == search.GearboxId)
+                .Where(a => search.Brand == null || a.Model.BrandId == search.Brand)
+                .Where(a => search.Models == null || search.Models.Contains(a.ModelId))
+                .Where(a => search.Generations == null || search.Generations.Contains(a.GenerationId))
+                .Where(a => search.Engines == null || search.Engines.Contains(a.EngineId))
+                .Where(a => search.Equipments == null || search.Equipments.Contains(a.EquipmentId))
+                .Where(a => search.Gearboxes == null || search.Gearboxes.Contains(a.GearboxId))
                 .Where(a => search.Year == null || search.Year.From == null || a.Year >= search.Year.From)
                 .Where(a => search.Year == null || search.Year.To == null || a.Year <= search.Year.To)
                 .Where(a => search.Mileage == null || search.Mileage.From == null || a.MileageThousands >= search.Mileage.From)
@@ -52,6 +53,21 @@ namespace AutoDealer.Services
 
 
             return await saleAnnouncements.Select(x => mapper.Map<SaleAnnouncementDto>(x)).ToListAsync();
+        }
+
+        public async Task<SaleAnnouncementDto> GetSaleAnnouncement(int id)
+        {
+            var saleAnnouncement = await db.SaleAnnouncements
+                .Include(a => a.Model)
+                .Include(a => a.User)
+                .Include(a => a.Model.Brand)
+                .Include(a => a.Generation)
+                .Include(a => a.Engine)
+                .Include(a => a.Equipment)
+                .Include(a => a.Gearbox)
+                .FirstAsync(a => a.Id == id) ?? throw new KeyNotFoundException();
+
+            return mapper.Map<SaleAnnouncementDto>(saleAnnouncement);
         }
     }
 }

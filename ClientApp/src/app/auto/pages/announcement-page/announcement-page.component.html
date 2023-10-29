@@ -1,8 +1,6 @@
-<div class="announcement-page">
+<div *ngIf="announcement$ | async" class="announcement-page">
   <div class="announcement-page__title">
-    <span nz-typography>{{
-      (announcement$ | async)?.car?.model?.brand?.name
-    }}</span>
+    <span nz-typography>{{ (announcement$ | async)?.car?.brand?.name }}</span>
     <span nz-typography>{{ (announcement$ | async)?.car?.model?.name }}</span>
     <span nz-typography>{{ (announcement$ | async)?.car?.year }}</span>
   </div>
@@ -17,7 +15,7 @@
       <div class="auto-info">
         <div class="auto-info__title">
           <span nz-typography>{{
-            (announcement$ | async)?.car?.model?.brand?.name
+            (announcement$ | async)?.car?.brand?.name
           }}</span>
           <span nz-typography>{{
             (announcement$ | async)?.car?.model?.name
@@ -134,25 +132,11 @@
         </div>
         <div class="owner-info__phone">
           <span nz-typography nzType="success">{{
-            (announcement$ | async)?.owner?.phone
+            (announcement$ | async)?.owner?.email
           }}</span>
         </div>
       </div>
 
-      <div class="announcement-page__owner-info">
-        <div class="announcement-page__owner-info__title">
-          <span nz-typography>Owner info</span>
-        </div>
-        <div class="announcement-page__owner-info__name">
-          <span nz-typography>
-            {{ (announcement$ | async)?.owner?.name }}
-            {{ (announcement$ | async)?.owner?.surname }}
-          </span>
-        </div>
-        <div class="announcement-page__owner-info__email">
-          <span nz-typography>{{ (announcement$ | async)?.owner?.email }}</span>
-        </div>
-      </div>
       <div class="announcement-page__car-info">
         <div class="announcement-page__car-info__title">
           <span nz-typography>Car info</span>

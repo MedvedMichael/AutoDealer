@@ -14,6 +14,11 @@ import { AutoCardComponent } from './components/auto-card/auto-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { AnnouncementPageComponent } from './pages/announcement-page/announcement-page.component';
 import { EditAnnouncementPageComponent } from './pages/edit-announcement-page/edit-announcement-page.component';
+import { AnnouncementEffects } from './store/effects/announcement.effects';
+import {
+  announcementFeatureKey,
+  announcementReducer,
+} from './store/reducers/announcement.reducer';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,8 @@ import { EditAnnouncementPageComponent } from './pages/edit-announcement-page/ed
     AntdModule,
     ReactiveFormsModule,
     StoreModule.forFeature(autoFeatureKey, autoReducer),
-    EffectsModule.forFeature([AutoEffects]),
+    StoreModule.forFeature(announcementFeatureKey, announcementReducer),
+    EffectsModule.forFeature([AutoEffects, AnnouncementEffects]),
   ],
 })
 export class AutoModule {}

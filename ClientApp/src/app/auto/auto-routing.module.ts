@@ -5,7 +5,7 @@ import { AnnouncementPageComponent } from './pages/announcement-page/announcemen
 import { EditAnnouncementPageComponent } from './pages/edit-announcement-page/edit-announcement-page.component';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent },
+  { path: '', pathMatch: 'full', component: HomePageComponent },
   { path: 'announcement/:id', component: AnnouncementPageComponent },
   { path: 'announcement/:id/edit', component: EditAnnouncementPageComponent },
   { path: '**', redirectTo: '' },

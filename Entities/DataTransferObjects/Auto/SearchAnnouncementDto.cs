@@ -7,12 +7,12 @@ namespace AutoDealer.Entities.DataTransferObjects.Auto
     }
     public class SearchAnnouncementDto
     {
-        public int? BrandId { get; set; }
-        public int? ModelId { get; set; }
-        public int? GenerationId { get; set; }
-        public int? EngineId { get; set; }
-        public int? GearboxId { get; set; }
-        public int? EquipmentId { get; set; }
+        public int? Brand { get; set; }
+        public List<int>? Models { get; set; }
+        public List<int>? Generations { get; set; }
+        public List<int>? Engines { get; set; }
+        public List<int>? Gearboxes { get; set; }
+        public List<int>? Equipments { get; set; }
         public SearchRange? Year { get; set; }
         public SearchRange? Price { get; set; }
 

@@ -1,73 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, interval, map, of, switchMap, take } from 'rxjs';
 import { API_BASE_URL } from 'src/app/app.module';
 import {
   BaseAutoDto,
   Engine,
-  FuelType,
-  GearboxType,
   Generation,
   SaleAnnouncement,
   SearchRequest,
 } from '../interfaces/Auto';
 import * as moment from 'moment';
 
-const MOCK_ANNOUNCEMENTS: SaleAnnouncement[] = [
-  {
-    id: 1,
-    car: {
-      model: {
-        id: 1,
-        name: 'A7 Sportback',
-        brand: {
-          id: 1,
-          name: 'Audi',
-        },
-      },
-      generation: {
-        id: 1,
-        name: 'C7 (FL)',
-        startYear: 2008,
-        endYear: 2015,
-      },
-      engine: {
-        id: 1,
-        name: 'CREC',
-        fuelType: FuelType.Petrol,
-        horsePower: 333,
-        capacity: 3,
-      },
-      gearbox: {
-        id: 1,
-        name: 'DSG',
-        type: GearboxType.Robotic,
-      },
-      equipment: {
-        id: 1,
-        name: 'Premium Plus (Quattro)',
-      },
-      year: 2017,
-      color: 'Grey',
-      ownersCount: 4,
-      winNumber: 'WAUZZZ4G8GN108742',
-      mileage: 125,
-    },
-    price: 10000,
-    city: 'Kyiv',
-    ownersCount: 1,
-    owner: {
-      name: 'John',
-      surname: 'Doe',
-      email: 'email@gmail.com',
-      phone: '+380123456789',
-    },
-
-    description: `Audi A7 Spotback ABT Машина своя , я владелец! Полная комплектация , аналогов в Украине нету! 2020 год / 20 тис пробег 3.0 дизель с мягким гибридом Состояние нового авто! Полностью в родной краске! Оригинальный обвес Audi S7 ABT Акустика Bang Olufsen c выезжающими 3D колонками Лазерные фары Динамичное приветствие фар Диски R21 + тормоза Audi S7 Двойные стекла , вентиляция и массаж сидений Камеры 360 3D Дистроник , датчик мертвых зон Большой плюс это динамика и экономия!
-    Джерело: https://auto.ria.com/uk/auto_audi_a7_sportback_35216487.html © AUTO.RIA.com™`,
-    createdAt: moment(),
-  },
-];
+interface ApiSaleAnnouncement extends Omit<SaleAnnouncement, 'createdAt'> {
+  createdAt: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -130,28 +76,44 @@ export class AutoService {
     );
   }
 
+  private mapApiSaleAnnouncement(apiSaleAnnouncement: ApiSaleAnnouncement) {
+    const { createdAt, ...announcement } = apiSaleAnnouncement;
+    return { ...announcement, createdAt: moment(createdAt) };
+  }
+
   public getSaleAnnouncements = (
     search: SearchRequest
   ): Observable<SaleAnnouncement[]> => {
-    return of([
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-      ...MOCK_ANNOUNCEMENTS,
-    ]);
+    const params = Object.fromEntries(
+      Object.entries({
+        brand: `${search.brand}`,
+        models: search.models.join(',') ?? '',
+        generations: search.generations?.join(',') ?? '',
+        priceFrom: search.price.from?.toString() ?? '',
+        priceTo: search.price.to?.toString() ?? '',
+        yearFrom: search.year.from?.toString() ?? '',
+        yearTo: search.year.to?.toString() ?? '',
+        mileageFrom: search.mileage.from?.toString() ?? '',
+        mileageTo: search.mileage.to?.toString() ?? '',
+      }).filter(([, value]) => value !== '')
+    );
+    const queryParams = new URLSearchParams(params);
+
+    return this.httpClient
+      .get<ApiSaleAnnouncement[]>(
+        `${this.apiBaseUrl}/announcements?${queryParams.toString()}`
+      )
+      .pipe(map((x) => x.map(this.mapApiSaleAnnouncement)));
   };
 
-  public getSaleAnnouncement = (
-    id: number
-  ): Observable<SaleAnnouncement | null> => {
-    return of(MOCK_ANNOUNCEMENTS[0]);
+  public getSaleAnnouncement = (id: number): Observable<SaleAnnouncement> => {
+    return interval(1000).pipe(
+      take(1),
+      switchMap(() =>
+        this.httpClient
+          .get<ApiSaleAnnouncement>(`${this.apiBaseUrl}/announcements/${id}`)
+          .pipe(map(this.mapApiSaleAnnouncement))
+      )
+    );
   };
 }
