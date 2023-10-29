@@ -4,6 +4,7 @@ using AutoDealer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoDealer.Data.Migrations
 {
     [DbContext(typeof(AutoDbContext))]
-    partial class AutoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029115138_FillAnnouncement")]
+    partial class FillAnnouncement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -564,13 +567,13 @@ namespace AutoDealer.Data.Migrations
                             Id = 1,
                             City = "Kyiv",
                             Color = "Blue",
-                            CreatedAt = new DateTime(2023, 10, 29, 13, 52, 38, 897, DateTimeKind.Local).AddTicks(5304),
+                            CreatedAt = new DateTime(2023, 10, 29, 13, 51, 37, 979, DateTimeKind.Local).AddTicks(6343),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl vitae aliquam ultricies, nunc nisl ultricies",
                             EngineId = 1,
                             EquipmentId = 3,
                             GearboxId = 3,
                             GenerationId = 2,
-                            MileageThousands = 100,
+                            MileageThousands = 100000,
                             ModelId = 7,
                             OwnersCount = 1,
                             Price = 35000,

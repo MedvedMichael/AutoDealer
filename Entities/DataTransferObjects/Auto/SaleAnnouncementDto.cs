@@ -21,6 +21,9 @@ namespace AutoDealer.Entities.DataTransferObjects.Auto
         public required BaseAutoDto Equipment { get; set; }
 
         [Required]
+        public required GearboxDto Gearbox { get; set; }
+
+        [Required]
         [Range(0, int.MaxValue)]
         public required int Year { get; set; }
 

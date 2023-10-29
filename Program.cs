@@ -53,6 +53,7 @@ builder.Services.AddScoped<IModelService, ModelService>();
 builder.Services.AddScoped<IGenerationService, GenerationService>();
 builder.Services.AddScoped<IEngineService, EngineService>();
 builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+builder.Services.AddScoped<IGearboxService, GearboxService>();
 builder.Services.AddScoped<ISaleAnnouncementService, SaleAnnouncementService>();
 
 

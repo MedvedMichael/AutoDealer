@@ -36,6 +36,7 @@ namespace AutoDealer.Data
             modelBuilder.ApplyConfiguration(new EngineGearboxConfiguration());
             modelBuilder.ApplyConfiguration(new EngineModelConfiguration());
             modelBuilder.ApplyConfiguration(new EquipmentModelConfiguration());
+            modelBuilder.ApplyConfiguration(new SaleAnnouncementConfiguration());
 
 
             modelBuilder.Entity<Model>().HasOne(m => m.Brand).WithMany(b => b.Models);
@@ -46,7 +47,7 @@ namespace AutoDealer.Data
             modelBuilder.Entity<Engine>().HasMany(e => e.Gearboxes).WithMany(g => g.Engines).UsingEntity<EngineGearbox>();
 
             modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Model).WithMany(m => m.SaleAnnouncements);
-            modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Generation).WithMany(g => g.SaleAnnouncements);
+            modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Generation).WithMany(g => g.SaleAnnouncements).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Engine).WithMany(e => e.SaleAnnouncements);
             modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Equipment).WithMany(e => e.SaleAnnouncements);
             modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.User).WithMany(u => u.SaleAnnouncements);

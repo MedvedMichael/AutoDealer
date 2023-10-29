@@ -4,6 +4,7 @@ using AutoDealer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoDealer.Data.Migrations
 {
     [DbContext(typeof(AutoDbContext))]
-    partial class AutoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029113837_UpdateAnnouncement")]
+    partial class UpdateAnnouncement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -507,16 +510,16 @@ namespace AutoDealer.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EngineId")
+                    b.Property<int?>("EngineId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EquipmentId")
+                    b.Property<int?>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GearboxId")
+                    b.Property<int?>("GearboxId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GenerationId")
+                    b.Property<int?>("GenerationId")
                         .HasColumnType("int");
 
                     b.Property<int>("MileageThousands")
@@ -557,27 +560,6 @@ namespace AutoDealer.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SaleAnnouncements");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Kyiv",
-                            Color = "Blue",
-                            CreatedAt = new DateTime(2023, 10, 29, 13, 52, 38, 897, DateTimeKind.Local).AddTicks(5304),
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl vitae aliquam ultricies, nunc nisl ultricies",
-                            EngineId = 1,
-                            EquipmentId = 3,
-                            GearboxId = 3,
-                            GenerationId = 2,
-                            MileageThousands = 100,
-                            ModelId = 7,
-                            OwnersCount = 1,
-                            Price = 35000,
-                            UserId = "b0d3634c-6328-4814-b095-a0078f357393",
-                            WinNumber = "12345678901234567",
-                            Year = 2015
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -810,27 +792,19 @@ namespace AutoDealer.Data.Migrations
                 {
                     b.HasOne("AutoDealer.Entities.Models.Auto.Engine", "Engine")
                         .WithMany("SaleAnnouncements")
-                        .HasForeignKey("EngineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EngineId");
 
                     b.HasOne("AutoDealer.Entities.Models.Auto.Equipment", "Equipment")
                         .WithMany("SaleAnnouncements")
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EquipmentId");
 
                     b.HasOne("AutoDealer.Entities.Models.Auto.Gearbox", "Gearbox")
                         .WithMany()
-                        .HasForeignKey("GearboxId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GearboxId");
 
                     b.HasOne("AutoDealer.Entities.Models.Auto.Generation", "Generation")
                         .WithMany("SaleAnnouncements")
-                        .HasForeignKey("GenerationId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("GenerationId");
 
                     b.HasOne("AutoDealer.Entities.Models.Auto.Model", "Model")
                         .WithMany("SaleAnnouncements")
