@@ -15,7 +15,9 @@ namespace AutoDealer
 
             CreateMap<Brand, BaseAutoDto>();
             CreateMap<Model, BaseAutoDto>();
-            CreateMap<Generation, BaseAutoDto>();
+            CreateMap<Generation, GenerationDto>();
+            CreateMap<Engine, EngineDto>();
+            CreateMap<Equipment, BaseAutoDto>();
             CreateMap<ModelDto, Model>();
             CreateMap<string, Generation>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src));

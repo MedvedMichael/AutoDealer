@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { interval, map, mergeMap, Observable, tap } from 'rxjs';
 import User, {
   LoginCredentials,
   RegisterCredentials,
 } from '../interfaces/user.interface';
-import { TokenStorageService } from './token-storage.service';
+import { API_BASE_URL } from 'src/app/app.module';
 
 interface ApiUser {
   token: string;
@@ -16,62 +16,37 @@ interface ApiUser {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseUrl = 'http://localhost:5046/auth';
-  private user: User | null = null;
+  private readonly baseUrl = `${this.apiBaseUrl}/auth`;
 
   constructor(
     private httpClient: HttpClient,
-    private tokenStorageService: TokenStorageService
-  ) {
-    if (this.tokenStorageService.getAccessToken()) {
-      this.getCurrentUser().subscribe((user) => {
-        this.user = user;
-      });
-    }
-  }
-
-  private updateCurrentUserData(apiUser: ApiUser) {
-    console.log(apiUser);
-    this.tokenStorageService.setAccessToken(apiUser.token);
-    this.user = apiUser.user;
-  }
+    @Inject(API_BASE_URL) private apiBaseUrl: string
+  ) {}
 
   public registerUser({
     email,
     password,
     name,
     surname,
-  }: RegisterCredentials): Observable<User> {
+  }: RegisterCredentials): Observable<ApiUser> {
+    return this.httpClient.post<ApiUser>(`${this.baseUrl}/register`, {
+      email,
+      password,
+      name,
+      surname,
+    });
+  }
+
+  public loginUser({ email, password }: LoginCredentials): Observable<ApiUser> {
+    return this.httpClient.post<ApiUser>(`${this.baseUrl}/login`, {
+      email,
+      password,
+    });
+  }
+
+  public getProfile(): Observable<User> {
     return this.httpClient
-      .post<ApiUser>(`${this.baseUrl}/register`, {
-        email,
-        password,
-        name,
-        surname,
-      })
-      .pipe(
-        tap((user) => this.updateCurrentUserData(user)),
-        map((res) => res.user)
-      );
-  }
-
-  public loginUser({ email, password }: LoginCredentials): Observable<User> {
-    return this.httpClient
-      .post<ApiUser>(`${this.baseUrl}/login`, {
-        email,
-        password,
-      })
-      .pipe(
-        tap((user) => this.updateCurrentUserData(user)),
-        map((res) => res.user)
-      );
-  }
-
-  private getCurrentUser(): Observable<User> {
-    return this.httpClient.get<User>(`${this.baseUrl}/me`);
-  }
-
-  public logout() {
-    this.tokenStorageService.removeToken();
+      .get<User>(`${this.baseUrl}/me`)
+      .pipe(mergeMap((user) => interval(1500).pipe(map(() => user))));
   }
 }

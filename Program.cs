@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddCors(options => options.AddDefaultPolicy(builder =>
 {
-    // builder.WithOrigins("http://localhost:5046").AllowAnyHeader().AllowAnyMethod();
-    builder.AllowAnyOrigin();
+    builder.WithOrigins("http://localhost:5046").AllowAnyHeader().AllowAnyMethod();
+    // builder.AllowAnyOrigin();
 }));
 
 var connString = builder.Configuration.GetConnectionString("AutoDbContext");

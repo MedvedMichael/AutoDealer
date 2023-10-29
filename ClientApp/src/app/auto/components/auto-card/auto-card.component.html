@@ -1,0 +1,53 @@
+<div class="auto-card">
+  <img class="auto-card__preview" src="assets/auto.jpg" />
+  <div class="auto-card__info">
+    <a
+      nz-typography
+      class="auto-card__title"
+      [routerLink]="'announcement/' + announcement.id"
+    >
+      {{ announcement.car.model.brand.name }}
+      {{ announcement.car.model.name }}
+      {{ announcement.car.year }}</a
+    >
+    <span class="auto-card__price" nz-typography nzType="success">
+      ${{ price }}
+    </span>
+    <span class="auto-card__subinfo"
+      >{{ announcement.car.generation.name }}
+      <span nz-icon [nzType]="'caret-right'"></span>
+      <span>{{ announcement.car.equipment.name }}</span>
+      <span nz-icon [nzType]="'caret-right'"></span>
+      {{ announcement.car.engine.horsePower }} h.p.
+    </span>
+
+    <div class="auto-card__specs">
+      <div class="specs-column">
+        <div class="specs-column__container">
+          <app-icon [icon]="iconType.Fuel"></app-icon>
+          <span nz-typography
+            >{{ fuelTypeLabel[announcement.car.engine.fuelType] }},
+            {{ engineCapacity }}</span
+          >
+        </div>
+        <div class="specs-column__container">
+          <app-icon [icon]="iconType.Gearbox"></app-icon>
+          <span nz-typography>{{
+            gearboxTypeLabel[announcement.car.gearbox.type]
+          }}</span>
+        </div>
+      </div>
+      <div class="specs-column">
+        <div class="specs-column__container">
+          <app-icon [icon]="iconType.Location"></app-icon>
+          <span nz-typography>{{ announcement.city }}</span>
+        </div>
+        <div class="specs-column__container">
+          <app-icon [icon]="iconType.Speed"></app-icon>
+          <span nz-typography>{{ announcement.car.mileage }} tkm</span>
+        </div>
+      </div>
+    </div>
+    <span class="auto-card__description"> {{ description }} </span>
+  </div>
+</div>

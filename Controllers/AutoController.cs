@@ -26,7 +26,6 @@ namespace AutoDealer.Controllers
         }
 
         [HttpGet("models")]
-        [Authorize]
         public async Task<IActionResult> GetModels([FromQuery] int brand, [FromQuery] string search = "")
         {
             var brands = await autoService.GetModels(brand, search);
@@ -86,6 +85,13 @@ namespace AutoDealer.Controllers
         {
             var engines = await autoService.GetEngines(model, search);
             return Ok(engines);
+        }
+
+        [HttpGet("equipments")]
+        public async Task<IActionResult> GetEquipments([FromQuery] int model, [FromQuery] string search = "")
+        {
+            var equipments = await autoService.GetEquipments(model, search);
+            return Ok(equipments);
         }
     }
 }

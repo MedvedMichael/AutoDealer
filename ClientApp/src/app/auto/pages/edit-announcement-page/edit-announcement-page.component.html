@@ -1,0 +1,223 @@
+<div class="edit-announcement">
+  <h1 nz-typography>Create New Announcement</h1>
+  <form nz-form [formGroup]="autoFilterForm" class="filter-container">
+    <div class="columns">
+      <div class="form-column">
+        <div class="input-container">
+          <span
+            >Brand
+            <span nz-icon [nzType]="'aim'"></span>
+          </span>
+          <nz-select
+            formControlName="brand"
+            [nzPlaceHolder]="'Select Brand'"
+            nzShowSearch
+            nzAllowClear
+          >
+            <nz-option
+              *ngFor="let brand of brands$ | async"
+              [nzValue]="brand.id"
+              [nzLabel]="brand.name"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+
+        <div class="input-container">
+          <span
+            >Model
+            <span nz-icon [nzType]="'car'"></span>
+          </span>
+          <nz-select
+            formControlName="model"
+            [nzPlaceHolder]="'Select Model'"
+            nzAllowClear
+            nzShowSearch
+            [nzDisabled]="!autoFilterForm.controls.brand.value"
+            nz-tooltip
+            [nzTooltipTitle]="
+              !autoFilterForm.controls.brand.value ? 'Select Brand first' : null
+            "
+          >
+            <nz-option
+              *ngFor="let model of models$ | async"
+              [nzValue]="model.id"
+              [nzLabel]="model.name"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+        <div class="input-container">
+          <span
+            >Generation
+            <span nz-icon [nzType]="'redo'"></span>
+          </span>
+          <nz-select
+            formControlName="generation"
+            [nzPlaceHolder]="'Select Generation'"
+            nzAllowClear
+            nzShowSearch
+            [nzDisabled]="!autoFilterForm.controls.model.value"
+            nz-tooltip
+            [nzTooltipTitle]="
+              !autoFilterForm.controls.brand.value ? 'Select Model first' : null
+            "
+          >
+            <nz-option
+              nzCustomContent
+              *ngFor="let generation of generations$ | async"
+              [nzValue]="generation.id"
+              [nzLabel]="generation.name"
+            >
+              {{ generation.name }}
+              <span nz-icon [nzType]="'caret-right'"></span>
+              {{ generation.startYear }} - {{ generation.endYear ?? "..." }}
+            </nz-option>
+            <ng-template #generationLabel> </ng-template>
+          </nz-select>
+        </div>
+        <div class="input-container">
+          <span
+            >Engine
+            <span nz-icon [nzType]="'redo'"></span>
+          </span>
+          <nz-select
+            formControlName="engine"
+            [nzPlaceHolder]="'Select Engine'"
+            nzAllowClear
+            nzShowSearch
+            [nzDisabled]="!autoFilterForm.controls.model.value"
+            nz-tooltip
+            [nzTooltipTitle]="
+              !autoFilterForm.controls.brand.value ? 'Select Model first' : null
+            "
+          >
+            <nz-option
+              nzCustomContent
+              *ngFor="let engine of engines$ | async"
+              [nzValue]="engine.id"
+              [nzLabel]="engine.name"
+            >
+              {{ engine.name }}
+              <span nz-icon [nzType]="'caret-right'"></span>
+              {{ engine.capacity | number : "1.1" }}
+              <span nz-icon [nzType]="'caret-right'"></span>
+              {{ engine.horsePower }} h.p.
+            </nz-option>
+            <ng-template #generationLabel> </ng-template>
+          </nz-select>
+        </div>
+        <div class="input-container">
+          <span
+            >Gearbox
+            <span nz-icon [nzType]="'redo'"></span>
+          </span>
+          <nz-select
+            formControlName="gearbox"
+            [nzPlaceHolder]="'Select Gearbox'"
+            nzAllowClear
+            nzShowSearch
+            [nzDisabled]="!autoFilterForm.controls.model.value"
+            nz-tooltip
+            [nzTooltipTitle]="
+              !autoFilterForm.controls.brand.value ? 'Select Model first' : null
+            "
+          >
+            <nz-option
+              nzCustomContent
+              *ngFor="let engine of engines$ | async"
+              [nzValue]="engine.id"
+              [nzLabel]="engine.name"
+            >
+              {{ engine.name }}
+              <span nz-icon [nzType]="'caret-right'"></span>
+              {{ engine.capacity | number : "1.1" }}
+              <span nz-icon [nzType]="'caret-right'"></span>
+              {{ engine.horsePower }} h.p.
+            </nz-option>
+            <ng-template #generationLabel> </ng-template>
+          </nz-select>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="input-container">
+          <span
+            >Year of Car Manufacture
+            <span nz-icon [nzType]="'tool'"></span>
+          </span>
+          <div class="range-select">
+            <nz-select
+              formControlName="year"
+              [nzPlaceHolder]="'From'"
+              nzAllowClear
+              nzShowSearch
+            >
+              <nz-option
+                *ngFor="let year of years"
+                [nzValue]="year"
+                [nzLabel]="year"
+              >
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
+        <div class="input-container">
+          <span
+            >Price
+            <span nz-icon [nzType]="'dollar'"></span>
+          </span>
+          <div class="range-select">
+            <input
+              nz-input
+              type="number"
+              formControlName="price"
+              placeholder="From"
+            />
+          </div>
+        </div>
+        <div class="input-container">
+          <span
+            >Mileage (in thousands of kilometers)
+            <span nz-icon [nzType]="'car'"></span>
+          </span>
+          <div class="range-select">
+            <input
+              nz-input
+              type="number"
+              formControlName="mileage"
+              placeholder="From"
+            />
+          </div>
+        </div>
+        <div class="input-container">
+          <span
+            >Equipment
+            <span nz-icon [nzType]="'redo'"></span>
+          </span>
+          <nz-select
+            formControlName="equipment"
+            [nzPlaceHolder]="'Select Equipment'"
+            nzAllowClear
+            nzShowSearch
+            [nzDisabled]="!autoFilterForm.controls.model.value"
+            nz-tooltip
+            [nzTooltipTitle]="
+              !autoFilterForm.controls.brand.value ? 'Select Model first' : null
+            "
+          >
+            <nz-option
+              nzCustomContent
+              *ngFor="let equipment of equipments$ | async"
+              [nzValue]="equipment.id"
+              [nzLabel]="equipment.name"
+            >
+              {{ equipment.name }}
+            </nz-option>
+            <ng-template #generationLabel> </ng-template>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -14,6 +14,7 @@ namespace AutoDealer.Data
         public DbSet<Generation> Generations { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Engine> Engines { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
         public DbSet<SaleAnnouncement> SaleAnnouncements { get; set; }
 
 
@@ -26,15 +27,18 @@ namespace AutoDealer.Data
             modelBuilder.ApplyConfiguration(new ModelConfiguration());
             modelBuilder.ApplyConfiguration(new GenerationConfiguration());
             modelBuilder.ApplyConfiguration(new EngineConfiguration());
+            modelBuilder.ApplyConfiguration(new EquipmentConfiguration());
 
             modelBuilder.Entity<Model>().HasOne(m => m.Brand).WithMany(b => b.Models);
             modelBuilder.Entity<Model>().HasMany(m => m.Engines).WithMany(m => m.Models);
             modelBuilder.Entity<Model>().HasMany(m => m.Generations).WithOne(g => g.Model);
-            modelBuilder.Entity<Car>().HasMany(c => c.SaleAnnouncements).WithOne(s => s.Car);
-            modelBuilder.Entity<Car>().HasOne(c => c.Model).WithMany(m => m.Cars).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Car>().HasOne(c => c.Generation).WithMany(g => g.Cars).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Car>().HasOne(c => c.Engine).WithMany(e => e.Cars).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Car>().HasMany(c => c.SaleAnnouncements).WithOne(s => s.Car);
+            modelBuilder.Entity<Model>().HasMany(m => m.Equipments).WithMany(e => e.Models);
+
+            modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Model).WithMany(m => m.SaleAnnouncements);
+            modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Generation).WithMany(g => g.SaleAnnouncements);
+            modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Engine).WithMany(e => e.SaleAnnouncements);
+            modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.Equipment).WithMany(e => e.SaleAnnouncements);
+            modelBuilder.Entity<SaleAnnouncement>().HasOne(a => a.User).WithMany(u => u.SaleAnnouncements);
         }
     }
 }

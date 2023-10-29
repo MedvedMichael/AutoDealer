@@ -1,8 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { LoginCredentials } from '../../interfaces/user.interface';
+import { Store, select } from '@ngrx/store';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
+import { AuthService } from '../../services/auth.service';
+import { NotificationComponent } from 'src/app/shared/components/notification/notification.component';
+import { State } from 'src/app/reducers';
+import {
+  selectUser,
+  selectUserLoading,
+} from '../../store/selectors/user.selectors';
+import { Observable, combineLatest } from 'rxjs';
+import User from '../../interfaces/user.interface';
+import { login } from '../../store/actions/user.actions';
 
 @Component({
   selector: 'app-login-page',
@@ -16,9 +33,31 @@ export class LoginPageComponent implements OnInit {
   loginError: string | null = null;
   registerError: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  user$!: Observable<User | null>;
+  userLoading$!: Observable<boolean>;
+
+  @ViewChild('successLoginMessage')
+  successLoginMessage!: TemplateRef<NotificationComponent>;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notification: NzNotificationService,
+    private store: Store<State>
+  ) {}
 
   public ngOnInit() {
+    this.user$ = this.store.pipe(select(selectUser));
+    this.userLoading$ = this.store.pipe(select(selectUserLoading));
+
+    combineLatest([this.user$, this.userLoading$]).subscribe(
+      ([user, loading]) => {
+        if (!loading && user) {
+          this.router.navigate(['/me']);
+        }
+      }
+    );
+
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
@@ -26,6 +65,7 @@ export class LoginPageComponent implements OnInit {
 
     this.signUpForm = new FormGroup({
       name: new FormControl('', Validators.required),
+      surname: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
@@ -41,15 +81,24 @@ export class LoginPageComponent implements OnInit {
   public onLogin() {
     if (this.loginForm.valid) {
       this.loginError = null;
-      this.authService.loginUser(this.loginForm.value).subscribe({
-        next: () => {
-          this.router.navigate(['/me']);
-        },
-        error: () => {
-          this.loginError = 'Incorrect email or password!';
-          this.loginForm.controls['password'].setValue('');
-        },
-      });
+      this.store.dispatch(login({ loginCredentials: this.loginForm.value }));
+      combineLatest([this.user$, this.userLoading$]).subscribe(
+        ([user, loading]) => {
+          if (!loading && user) {
+            if (user) {
+              this.router.navigate(['/me']);
+              this.notification.template(this.successLoginMessage, {
+                nzDuration: 5,
+              });
+            }
+          } else {
+            this.loginForm.controls['password'].setErrors([
+              'Incorrect email or password!',
+            ]);
+            this.loginForm.controls['password'].setValue('');
+          }
+        }
+      );
     }
   }
 

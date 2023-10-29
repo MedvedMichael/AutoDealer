@@ -1,3 +1,14 @@
-<main class="container">
-  <router-outlet></router-outlet>
+<main>
+  <app-navbar></app-navbar>
+  <app-main-layout>
+    <router-outlet></router-outlet>
+  </app-main-layout>
 </main>
+
+<div class="spinner-wrapper" *ngIf="loading$ | async">
+  <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
+</div>
+
+<ng-template #indicatorTemplate
+  ><span class="spinner" nz-icon nzType="loading" nzSize="large"></span
+></ng-template>

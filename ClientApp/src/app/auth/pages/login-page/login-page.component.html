@@ -5,14 +5,24 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="The input is not valid E-mail!">
           <nz-input-group nzPrefixIcon="user">
-            <input formControlName="email" nz-input type="email" placeholder="Login" />
+            <input
+              formControlName="email"
+              nz-input
+              type="email"
+              placeholder="Login"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your password!">
           <nz-input-group nzPrefixIcon="lock">
-            <input formControlName="password" nz-input type="password" placeholder="Password" />
+            <input
+              formControlName="password"
+              nz-input
+              type="password"
+              placeholder="Password"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -25,32 +35,62 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzPrefixIcon="user">
-            <input formControlName="name" nz-input type="text" placeholder="Name" />
+            <input
+              formControlName="name"
+              nz-input
+              type="text"
+              placeholder="Name"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your password!">
           <nz-input-group nzPrefixIcon="user">
-            <input formControlName="surname" nz-input type="text" placeholder="Surname" />
+            <input
+              formControlName="surname"
+              nz-input
+              type="text"
+              placeholder="Surname"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="The input is not valid E-mail!">
           <nz-input-group nzPrefixIcon="user">
-            <input formControlName="email" nz-input type="email" placeholder="Login" />
+            <input
+              formControlName="email"
+              nz-input
+              type="email"
+              placeholder="Login"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your password!">
           <nz-input-group nzPrefixIcon="lock">
-            <input formControlName="password" nz-input type="password" placeholder="Password" />
+            <input
+              formControlName="password"
+              nz-input
+              type="password"
+              placeholder="Password"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <button nz-button type="submit" mat-button (click)="onRegister()">Sign up!</button>
+      <button nz-button type="submit" mat-button (click)="onRegister()">
+        Sign up!
+      </button>
     </form>
   </div>
 </div>
+
+<ng-template #successLoginMessage>
+  <app-notification
+    [title]="'Success'"
+    [message]="'You have successfully logged in!'"
+    [type]="'success'"
+  ></app-notification>
+</ng-template>

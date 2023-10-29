@@ -1,0 +1,172 @@
+<div class="announcement-page">
+  <div class="announcement-page__title">
+    <span nz-typography>{{
+      (announcement$ | async)?.car?.model?.brand?.name
+    }}</span>
+    <span nz-typography>{{ (announcement$ | async)?.car?.model?.name }}</span>
+    <span nz-typography>{{ (announcement$ | async)?.car?.year }}</span>
+  </div>
+  <div class="announcement-page__subtitle">
+    {{ (announcement$ | async)?.car?.generation?.name }}
+  </div>
+  <div class="announcement-page__container">
+    <div class="left-column">
+      <div class="announcement-page__image-container">
+        <app-carousel [images]="images"></app-carousel>
+      </div>
+      <div class="auto-info">
+        <div class="auto-info__title">
+          <span nz-typography>{{
+            (announcement$ | async)?.car?.model?.brand?.name
+          }}</span>
+          <span nz-typography>{{
+            (announcement$ | async)?.car?.model?.name
+          }}</span>
+          <span nz-typography>{{ (announcement$ | async)?.car?.year }}</span>
+        </div>
+
+        <div class="auto-info__subtitle">
+          {{ (announcement$ | async)?.car?.generation?.name }}
+          <span nz-icon [nzType]="'caret-right'"></span>
+          <span>{{ (announcement$ | async)?.car?.equipment?.name }}</span>
+          <span nz-icon [nzType]="'caret-right'"></span>
+          {{ (announcement$ | async)?.car?.engine?.horsePower }} h.p.
+        </div>
+        <div class="auto-info__characteristics">
+          <h2 nz-typography>Characteristics</h2>
+          <span nz-typography
+            >Created at
+            {{ (announcement$ | async)?.createdAt?.format("DD-MM-YYYY") }}</span
+          >
+
+          <div class="car-stats">
+            <div class="car-stats__row">
+              <div class="car-stats__row__title">
+                <span nz-typography>Engine</span>
+              </div>
+              <div class="car-stats__row__value">
+                <span nz-typography
+                  >{{ (announcement$ | async)?.car?.engine?.capacity }} L.</span
+                >
+                <span nz-icon [nzType]="'caret-right'"></span>
+                <span nz-typography>{{ fuelTypeLabel | async }}</span>
+              </div>
+            </div>
+            <div class="car-stats__row">
+              <div class="car-stats__row__title">
+                <span nz-typography>Color</span>
+              </div>
+              <div class="car-stats__row__value">
+                <span nz-typography>{{
+                  (announcement$ | async)?.car?.color
+                }}</span>
+              </div>
+            </div>
+            <div class="car-stats__row">
+              <div class="car-stats__row__title">
+                <span nz-typography>Owners number</span>
+              </div>
+              <div class="car-stats__row__value">
+                <span nz-typography>{{
+                  (announcement$ | async)?.car?.ownersCount
+                }}</span>
+              </div>
+            </div>
+            <div class="car-stats__row">
+              <div class="car-stats__row__title">
+                <span nz-typography>WIN Number</span>
+              </div>
+              <div class="car-stats__row__value">
+                <a nz-typography [href]="winUrl | async" target="_blank">{{
+                  (announcement$ | async)?.car?.winNumber
+                }}</a>
+              </div>
+            </div>
+            <div class="car-stats__row">
+              <div class="car-stats__row__title">
+                <span nz-typography>Mileage</span>
+              </div>
+              <div class="car-stats__row__value">
+                <span nz-typography
+                  >{{ (announcement$ | async)?.car?.mileage + ",000" }} km</span
+                >
+              </div>
+            </div>
+            <div class="car-stats__row">
+              <div class="car-stats__row__title">
+                <span nz-typography>Gearbox</span>
+              </div>
+              <div class="car-stats__row__value">
+                <span nz-typography>{{ gearboxTypeLabel | async }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="description">
+            <h2 nz-typography>Description</h2>
+            <span nz-typography *ngFor="let line of descriptionLines | async">{{
+              line
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right-column">
+      <div class="price-label">
+        <span nz-typography nzType="success"
+          >${{ (announcement$ | async)?.price | number : "4.0" }}</span
+        >
+      </div>
+      <span nz-typography
+        >{{ (announcement$ | async)?.car?.mileage + ",000" }} km of
+        mileage</span
+      >
+
+      <div class="owner-info">
+        <div class="owner-info__header">
+          <span nz-icon [nzType]="'user'"></span>
+          <div class="owner-info__header__name">
+            <span nz-typography>
+              {{ (announcement$ | async)?.owner?.name }}
+              {{ (announcement$ | async)?.owner?.surname }}
+            </span>
+          </div>
+        </div>
+        <div class="owner-info__phone">
+          <span nz-typography nzType="success">{{
+            (announcement$ | async)?.owner?.phone
+          }}</span>
+        </div>
+      </div>
+
+      <div class="announcement-page__owner-info">
+        <div class="announcement-page__owner-info__title">
+          <span nz-typography>Owner info</span>
+        </div>
+        <div class="announcement-page__owner-info__name">
+          <span nz-typography>
+            {{ (announcement$ | async)?.owner?.name }}
+            {{ (announcement$ | async)?.owner?.surname }}
+          </span>
+        </div>
+        <div class="announcement-page__owner-info__email">
+          <span nz-typography>{{ (announcement$ | async)?.owner?.email }}</span>
+        </div>
+      </div>
+      <div class="announcement-page__car-info">
+        <div class="announcement-page__car-info__title">
+          <span nz-typography>Car info</span>
+        </div>
+        <div class="announcement-page__car-info__year">
+          <span nz-typography>
+            {{ (announcement$ | async)?.car?.generation?.startYear }} -
+            {{ (announcement$ | async)?.car?.generation?.endYear ?? "..." }}
+          </span>
+        </div>
+        <div class="announcement-page__car-info__city">
+          <span nz-typography>{{ (announcement$ | async)?.city }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,8 @@ namespace AutoDealer.Entities.Models.Auto
 
         public List<Generation> Generations { get; set; } = new List<Generation>();
         public List<Engine> Engines { get; set; } = new List<Engine>();
-        public List<Car> Cars { get; set; } = new List<Car>();
+        public List<Equipment> Equipments { get; set; } = new List<Equipment>();
+        public List<SaleAnnouncement> SaleAnnouncements { get; set; } = new List<SaleAnnouncement>();
+
     }
 }

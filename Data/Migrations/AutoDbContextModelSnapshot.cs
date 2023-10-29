@@ -111,7 +111,7 @@ namespace AutoDealer.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
 
                     b.HasData(
                         new
@@ -129,34 +129,6 @@ namespace AutoDealer.Data.Migrations
                             Id = 3,
                             Name = "Mercedes"
                         });
-                });
-
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Car", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EngineId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenerationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ModelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EngineId");
-
-                    b.HasIndex("GenerationId");
-
-                    b.HasIndex("ModelId");
-
-                    b.ToTable("Car", (string)null);
                 });
 
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Engine", b =>
@@ -182,7 +154,7 @@ namespace AutoDealer.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Engines", (string)null);
+                    b.ToTable("Engines");
 
                     b.HasData(
                         new
@@ -211,6 +183,40 @@ namespace AutoDealer.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Premium"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Premium Plus (Quattro)"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Prestige"
+                        });
+                });
+
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Generation", b =>
                 {
                     b.Property<int>("Id")
@@ -219,6 +225,9 @@ namespace AutoDealer.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("EndYear")
+                        .HasColumnType("int");
+
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 
@@ -226,30 +235,38 @@ namespace AutoDealer.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StartYear")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("Generations", (string)null);
+                    b.ToTable("Generations");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            EndYear = 2014,
                             ModelId = 7,
-                            Name = "C7"
+                            Name = "C7",
+                            StartYear = 2010
                         },
                         new
                         {
                             Id = 2,
+                            EndYear = 2018,
                             ModelId = 7,
-                            Name = "C7 (FL)"
+                            Name = "C7 (FL)",
+                            StartYear = 2014
                         },
                         new
                         {
                             Id = 3,
                             ModelId = 7,
-                            Name = "C8"
+                            Name = "C8",
+                            StartYear = 2018
                         });
                 });
 
@@ -272,7 +289,7 @@ namespace AutoDealer.Data.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Models", (string)null);
+                    b.ToTable("Models");
 
                     b.HasData(
                         new
@@ -333,14 +350,23 @@ namespace AutoDealer.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EngineId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GenerationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MileageThousands")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModelId")
                         .HasColumnType("int");
 
                     b.Property<int>("OwnersCount")
@@ -355,11 +381,17 @@ namespace AutoDealer.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
+                    b.HasIndex("EngineId");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("GenerationId");
+
+                    b.HasIndex("ModelId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SaleAnnouncements", (string)null);
+                    b.ToTable("SaleAnnouncements");
                 });
 
             modelBuilder.Entity("EngineModel", b =>
@@ -374,7 +406,22 @@ namespace AutoDealer.Data.Migrations
 
                     b.HasIndex("ModelsId");
 
-                    b.ToTable("EngineModel", (string)null);
+                    b.ToTable("EngineModel");
+                });
+
+            modelBuilder.Entity("EquipmentModel", b =>
+                {
+                    b.Property<int>("EquipmentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModelsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EquipmentsId", "ModelsId");
+
+                    b.HasIndex("ModelsId");
+
+                    b.ToTable("EquipmentModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -536,33 +583,6 @@ namespace AutoDealer.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Car", b =>
-                {
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Engine", "Engine")
-                        .WithMany("Cars")
-                        .HasForeignKey("EngineId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Generation", "Generation")
-                        .WithMany("Cars")
-                        .HasForeignKey("GenerationId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Model", "Model")
-                        .WithMany("Cars")
-                        .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Engine");
-
-                    b.Navigation("Generation");
-
-                    b.Navigation("Model");
-                });
-
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Generation", b =>
                 {
                     b.HasOne("AutoDealer.Entities.Models.Auto.Model", "Model")
@@ -587,9 +607,21 @@ namespace AutoDealer.Data.Migrations
 
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.SaleAnnouncement", b =>
                 {
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Car", "Car")
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Engine", "Engine")
                         .WithMany("SaleAnnouncements")
-                        .HasForeignKey("CarId")
+                        .HasForeignKey("EngineId");
+
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Equipment", "Equipment")
+                        .WithMany("SaleAnnouncements")
+                        .HasForeignKey("EquipmentId");
+
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Generation", "Generation")
+                        .WithMany("SaleAnnouncements")
+                        .HasForeignKey("GenerationId");
+
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Model", "Model")
+                        .WithMany("SaleAnnouncements")
+                        .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -599,7 +631,13 @@ namespace AutoDealer.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Car");
+                    b.Navigation("Engine");
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Generation");
+
+                    b.Navigation("Model");
 
                     b.Navigation("User");
                 });
@@ -609,6 +647,21 @@ namespace AutoDealer.Data.Migrations
                     b.HasOne("AutoDealer.Entities.Models.Auto.Engine", null)
                         .WithMany()
                         .HasForeignKey("EnginesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Model", null)
+                        .WithMany()
+                        .HasForeignKey("ModelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EquipmentModel", b =>
+                {
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Equipment", null)
+                        .WithMany()
+                        .HasForeignKey("EquipmentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -680,26 +733,26 @@ namespace AutoDealer.Data.Migrations
                     b.Navigation("Models");
                 });
 
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Car", b =>
+            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Engine", b =>
                 {
                     b.Navigation("SaleAnnouncements");
                 });
 
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Engine", b =>
+            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Equipment", b =>
                 {
-                    b.Navigation("Cars");
+                    b.Navigation("SaleAnnouncements");
                 });
 
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Generation", b =>
                 {
-                    b.Navigation("Cars");
+                    b.Navigation("SaleAnnouncements");
                 });
 
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Model", b =>
                 {
-                    b.Navigation("Cars");
-
                     b.Navigation("Generations");
+
+                    b.Navigation("SaleAnnouncements");
                 });
 #pragma warning restore 612, 618
         }

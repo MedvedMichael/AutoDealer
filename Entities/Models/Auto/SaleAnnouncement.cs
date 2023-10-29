@@ -9,7 +9,13 @@ namespace AutoDealer.Entities.Models.Auto
         public int Id { get; set; }
 
         [Required]
-        public required Car Car { get; set; }
+        public required Model Model { get; set; }
+
+        public Generation? Generation { get; set; }
+
+        public Engine? Engine { get; set; }
+
+        public Equipment? Equipment { get; set; }
 
         [Required]
         [Range(0.0, double.MaxValue)]

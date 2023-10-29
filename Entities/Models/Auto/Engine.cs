@@ -28,6 +28,6 @@ namespace AutoDealer.Entities.Models.Auto
         public required double Capacity { get; set; }
 
         public List<Model> Models { get; set; } = new List<Model>();
-        public List<Car> Cars { get; set; } = new List<Car>();
+        public List<SaleAnnouncement> SaleAnnouncements { get; set; } = new List<SaleAnnouncement>();
     }
 }

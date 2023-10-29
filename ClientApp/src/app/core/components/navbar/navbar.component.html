@@ -1,0 +1,32 @@
+<ul
+  class="navbar"
+  nz-menu
+  nzMode="horizontal"
+  nzTheme="dark"
+  [nzSelectable]="false"
+>
+  <a nz-menu-item routerLink="/">
+    <span class="navbar-icon" nz-icon [nzType]="'car'"></span>
+  </a>
+
+  <a
+    nz-menu-item
+    routerLink="/"
+    [routerLinkActiveOptions]="{ exact: true }"
+    routerLinkActive="ant-menu-item-selected"
+  >
+    Explore
+  </a>
+
+  <a
+    class="user-link"
+    nz-menu-item
+    [routerLink]="(user$ | async) ? '/me' : '/login'"
+    routerLinkActive="ant-menu-item-selected"
+  >
+    <span class="navbar-icon" nz-icon [nzType]="'user'"></span>
+    <ng-container *ngIf="user$ | async">
+      <span>{{ (user$ | async)?.name }} {{ (user$ | async)?.surname }} </span>
+    </ng-container>
+  </a>
+</ul>

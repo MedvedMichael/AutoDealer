@@ -1,0 +1,18 @@
+.navbar {
+  justify-content: flex-start;
+  align-items: stretch;
+  font-size: 1rem;
+  .navbar-icon {
+    font-size: 2rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-link {
+    margin-left: auto;
+  }
+}

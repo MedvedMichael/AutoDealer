@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .layout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+    min-width: 70rem;
+    max-width: 70rem;
+
+    @media screen and (max-width: 70rem) {
+      min-width: unset;
+      align-self: stretch;
+    }
+  }
+}

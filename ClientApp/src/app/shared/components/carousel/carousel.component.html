@@ -1,0 +1,18 @@
+<div class="carousel-wrapper">
+  <div (click)="onArrowClick('left')" class="carousel-arrow left">
+    <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+  </div>
+  <nz-carousel #carousel [nzEffect]="'scrollx'">
+    <div nz-carousel-content *ngFor="let image of images">
+      <img
+        class="announcement-page__image"
+        [src]="image"
+        alt="car image"
+        draggable="false"
+      />
+    </div>
+  </nz-carousel>
+  <div (click)="onArrowClick('right')" class="carousel-arrow right">
+    <span nz-icon nzType="arrow-right" nzTheme="outline"></span>
+  </div>
+</div>

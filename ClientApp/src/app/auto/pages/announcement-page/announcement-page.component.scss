@@ -1,0 +1,136 @@
+@use "src/variables" as var;
+
+.announcement-page {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    @include var.boldFont(var.$large);
+  }
+
+  &__subtitle {
+    @include var.semiFont(var.$medium);
+  }
+
+  &__container {
+    display: flex;
+    justify-content: stretch;
+    margin-top: 1rem;
+    & .left-column {
+      width: 65%;
+      // flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      & .auto-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        &__title {
+          @include var.boldFont(var.$big);
+        }
+
+        &__subtitle {
+          @include var.semiFont(var.$medium);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        &__characteristics {
+          margin-top: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          padding: 1rem;
+          border: 1px solid white;
+          border-radius: 0.25rem;
+
+          & > h2 {
+            margin: 0;
+          }
+
+          & .car-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+
+            &__row {
+              display: flex;
+              align-items: flex-start;
+
+              &__title {
+                @include var.semiFont(var.$medium);
+                width: 10rem;
+              }
+              &__value {
+                @include var.regularFont(var.$medium);
+                display: flex;
+                flex-grow: 1;
+                align-items: center;
+                gap: 0.25rem;
+              }
+            }
+          }
+
+          & .description {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            margin-top: 1rem;
+
+            & > h2 {
+              margin: 0;
+            }
+
+            & > span {
+              @include var.regularFont(var.$regular);
+            }
+          }
+        }
+      }
+    }
+
+    & .right-column {
+      border-left: 1px solid white;
+      padding: 0 1rem;
+      flex-grow: 2;
+      display: flex;
+      flex-direction: column;
+      margin-left: 1rem;
+      @include var.regularFont(var.$medium);
+
+      & .price-label {
+        @include var.boldFont(var.$big);
+      }
+
+      & .owner-info {
+        margin-top: 1rem;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid white;
+        border-radius: 0.25rem;
+
+        &__header {
+          padding: 0.5rem 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          & [nz-icon] {
+            font-size: 3rem;
+          }
+
+          &__name {
+            display: flex;
+            flex-direction: column;
+            @include var.semiFont(var.$big);
+          }
+        }
+      }
+    }
+  }
+}

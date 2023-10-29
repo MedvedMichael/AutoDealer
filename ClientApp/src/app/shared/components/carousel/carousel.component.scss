@@ -1,0 +1,49 @@
+@use "src/variables" as var;
+
+.carousel-wrapper {
+  position: relative;
+
+  & .carousel-arrow {
+    @include var.regularFont(var.$big);
+    position: absolute;
+    top: 50%;
+    width: 3rem;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+    opacity: 0;
+    height: 100%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 10;
+
+    &:hover {
+      opacity: 1;
+    }
+    &.left {
+      left: 0;
+    }
+    &.right {
+      right: 0;
+    }
+  }
+
+  nz-carousel {
+    position: relative;
+    max-height: 25rem;
+
+    [nz-carousel-content] {
+      height: 360px;
+      & img {
+        height: 100%;
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        object-fit: cover;
+        user-select: none;
+      }
+    }
+  }
+}

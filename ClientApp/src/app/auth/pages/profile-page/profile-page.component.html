@@ -1,0 +1,15 @@
+<div class="profile-page">
+  <div class="profile-block" *ngIf="!(loading$ | async)">
+    <span class="user-icon" nz-icon [nzType]="'user'"></span>
+    <h2 class="user-name">{{ fullName | async }}</h2>
+
+    <div class="user-info">
+      <span class="user-info__label">Email:</span>
+      <span class="user-info__value">{{ (user$ | async)?.email }}</span>
+    </div>
+    <div class="user-info">
+      <span class="user-info__label">Phone:</span>
+      <span class="user-info__value">{{ "+380971234567" }}</span>
+    </div>
+  </div>
+</div>

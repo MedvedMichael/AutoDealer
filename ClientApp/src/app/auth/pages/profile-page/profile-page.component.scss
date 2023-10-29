@@ -1,0 +1,40 @@
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .profile-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid white;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        gap: 2rem;
+        margin: 2rem 0;
+
+        .user-icon {
+            font-size: 8rem;
+        }
+
+        .user-name {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .user-info {
+            font-size: 1.5rem;
+            font-weight: 500;
+
+            &__label {
+                font-weight: 600;
+            }
+
+            &__value {
+                margin-left: 1rem;
+            }
+        }
+    }
+}

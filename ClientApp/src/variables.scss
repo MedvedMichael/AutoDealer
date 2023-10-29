@@ -1,0 +1,44 @@
+// Font sizes
+$small: 0.8rem;
+$regular: 1rem;
+$medium: 1.2rem;
+$big: 1.5rem;
+$large: 2rem;
+
+// Font weights
+$lightFontWeight: 300;
+$regularFontWeight: 400;
+$semiFontWeight: 600;
+$boldFontWeight: 700;
+
+@mixin font($size, $weight) {
+  font-size: $size;
+  font-weight: $weight;
+}
+
+@mixin lightFont($size) {
+  @include font($size, $lightFontWeight);
+}
+
+@mixin regularFont($size) {
+  @include font($size, $regularFontWeight);
+}
+
+@mixin semiFont($size) {
+  @include font($size, $semiFontWeight);
+}
+
+@mixin boldFont($size) {
+  @include font($size, $boldFontWeight);
+}
+
+// Colors
+$primary: #1890ff;
+$secondary: #f0f2f5;
+$danger: #ff4d4f;
+$success: #52c41a;
+$warning: #faad14;
+$white: #ffffff;
+$black: #000000;
+
+$highlight: #131a3d;

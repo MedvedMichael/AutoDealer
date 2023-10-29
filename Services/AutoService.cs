@@ -13,8 +13,9 @@ namespace AutoDealer.Services
         Task<BaseAutoDto> AddModel(ModelDto modelDto);
         Task<BaseAutoDto> UpdateModel(ModelDto modelDto);
         Task RemoveModel(int modelId);
-        Task<List<BaseAutoDto>> GetGenerations(int modelId, string search);
-        Task<List<BaseAutoDto>> GetEngines(int modelId, string search);
+        Task<List<GenerationDto>> GetGenerations(int modelId, string search);
+        Task<List<EngineDto>> GetEngines(int modelId, string search);
+        Task<List<BaseAutoDto>> GetEquipments(int modelId, string search);
         Task<SaleAnnouncement> AddAnnouncement();
     }
 
@@ -96,24 +97,35 @@ namespace AutoDealer.Services
             }
         }
 
-        public async Task<List<BaseAutoDto>> GetGenerations(int modelId, string search)
+        public async Task<List<GenerationDto>> GetGenerations(int modelId, string search)
         {
             var model = await db.Models.FindAsync(modelId) ?? throw new KeyNotFoundException();
             var generations = await db.Generations
                 .Where(generation => generation.ModelId == modelId && generation.Name.ToLower().Contains(search.ToLower()))
-                .Select(x => mapper.Map<BaseAutoDto>(x)).ToListAsync();
+                .Select(x => mapper.Map<GenerationDto>(x)).ToListAsync();
 
             return generations;
         }
 
-        public async Task<List<BaseAutoDto>> GetEngines(int modelId, string search)
+        public async Task<List<EngineDto>> GetEngines(int modelId, string search)
         {
-            var model = await db.Models.FindAsync(modelId) ?? throw new KeyNotFoundException();
-            var engines = await db.Engines
-                .Where(engine => engine.Models.Exists(m => m.Id == modelId) && engine.Name.ToLower().Contains(search.ToLower()))
-                .Select(x => mapper.Map<BaseAutoDto>(x)).ToListAsync();
+            var model = await db.Models.Include(m => m.Engines).Where(m => m.Id == modelId).FirstAsync() ?? throw new KeyNotFoundException();
+            var engines = model.Engines
+                .Where(engine => engine.Name.ToLower().Contains(search.ToLower()))
+                .Select(x => mapper.Map<EngineDto>(x)).ToList();
 
             return engines;
+        }
+
+        public async Task<List<BaseAutoDto>> GetEquipments(int modelId, string search)
+        {
+            var model = await db.Models.Include(m => m.Equipments).Where(m => m.Id == modelId).FirstAsync() ?? throw new KeyNotFoundException();
+            var equipments = model.Equipments
+                .Where(equipment => equipment.Name.ToLower().Contains(search.ToLower()))
+                .Select(x => mapper.Map<BaseAutoDto>(x))
+                .ToList();
+
+            return equipments;
         }
     }
 }

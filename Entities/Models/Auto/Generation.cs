@@ -12,11 +12,15 @@ namespace AutoDealer.Entities.Models.Auto
         public required string Name { get; set; }
 
         [Required]
+        public required int StartYear { get; set; }
+
+        public int? EndYear { get; set; }
+
+        [Required]
         [ForeignKey("Model")]
         public required int ModelId { get; set; }
 
         public Model? Model { get; set; }
-
-        public List<Car> Cars { get; set; } = new List<Car>();
+        public List<SaleAnnouncement> SaleAnnouncements { get; set; } = new List<SaleAnnouncement>();
     }
 }

@@ -1,0 +1,41 @@
+@use "src/variables" as var;
+
+.edit-announcement {
+  display: flex;
+  flex-direction: column;
+
+  & .filter-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: stretch;
+    gap: 1rem;
+
+    & .columns {
+      display: flex;
+      gap: 1rem;
+
+      & .form-column {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        gap: 1rem;
+        max-width: 40rem;
+      }
+
+      & .range-select {
+        display: flex;
+        gap: 1rem;
+        & nz-select {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
