@@ -29,5 +29,6 @@ namespace AutoDealer.Entities.Models.Auto
 
         public List<Model> Models { get; set; } = new List<Model>();
         public List<SaleAnnouncement> SaleAnnouncements { get; set; } = new List<SaleAnnouncement>();
+        public List<Gearbox> Gearboxes { get; set; } = new List<Gearbox>();
     }
 }

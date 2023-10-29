@@ -69,7 +69,8 @@ export interface SearchRequest {
 export interface SaleAnnouncement {
   id: number;
   car: {
-    model: Model;
+    brand: BaseAutoDto;
+    model: BaseAutoDto;
     generation: Generation;
     engine: Engine;
     gearbox: Gearbox;
@@ -82,7 +83,6 @@ export interface SaleAnnouncement {
   };
   price: number;
   city: string;
-  ownersCount: number;
   owner: {
     name: string;
     surname: string;

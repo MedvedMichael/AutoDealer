@@ -17,6 +17,8 @@ namespace AutoDealer.Entities.Models.Auto
 
         public Equipment? Equipment { get; set; }
 
+        public Gearbox? Gearbox { get; set; }
+
         [Required]
         [Range(0.0, double.MaxValue)]
         public required int Price { get; set; }

@@ -48,7 +48,14 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<JwtHandler>();
 builder.Services.AddScoped<IAccountsService, AccountsService>();
-builder.Services.AddScoped<IAutoService, AutoService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IModelService, ModelService>();
+builder.Services.AddScoped<IGenerationService, GenerationService>();
+builder.Services.AddScoped<IEngineService, EngineService>();
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+builder.Services.AddScoped<ISaleAnnouncementService, SaleAnnouncementService>();
+
+
 
 var app = builder.Build();
 

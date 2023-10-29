@@ -4,6 +4,7 @@ using AutoDealer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoDealer.Data.Migrations
 {
     [DbContext(typeof(AutoDbContext))]
-    partial class AutoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029105307_AddGearbox")]
+    partial class AddGearbox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,32 +238,6 @@ namespace AutoDealer.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Gearboxes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GearboxType = 3,
-                            Name = "DSG DQ 250"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GearboxType = 3,
-                            Name = "DSG DQ 500"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GearboxType = 3,
-                            Name = "DSG DQ 381"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            GearboxType = 1,
-                            Name = "ZF 8HP"
-                        });
                 });
 
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Generation", b =>
@@ -313,102 +290,6 @@ namespace AutoDealer.Data.Migrations
                             ModelId = 7,
                             Name = "C8",
                             StartYear = 2018
-                        });
-                });
-
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.IntermediateModels.EngineGearbox", b =>
-                {
-                    b.Property<int>("EnginesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GearboxesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EnginesId", "GearboxesId");
-
-                    b.HasIndex("GearboxesId");
-
-                    b.ToTable("EngineGearbox");
-
-                    b.HasData(
-                        new
-                        {
-                            EnginesId = 1,
-                            GearboxesId = 3
-                        },
-                        new
-                        {
-                            EnginesId = 2,
-                            GearboxesId = 4
-                        },
-                        new
-                        {
-                            EnginesId = 3,
-                            GearboxesId = 1
-                        });
-                });
-
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.IntermediateModels.EngineModel", b =>
-                {
-                    b.Property<int>("EnginesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ModelsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EnginesId", "ModelsId");
-
-                    b.HasIndex("ModelsId");
-
-                    b.ToTable("EngineModel");
-
-                    b.HasData(
-                        new
-                        {
-                            EnginesId = 1,
-                            ModelsId = 7
-                        },
-                        new
-                        {
-                            EnginesId = 2,
-                            ModelsId = 7
-                        },
-                        new
-                        {
-                            EnginesId = 3,
-                            ModelsId = 7
-                        });
-                });
-
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.IntermediateModels.EquipmentModel", b =>
-                {
-                    b.Property<int>("EquipmentsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ModelsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EquipmentsId", "ModelsId");
-
-                    b.HasIndex("ModelsId");
-
-                    b.ToTable("EquipmentModel");
-
-                    b.HasData(
-                        new
-                        {
-                            EquipmentsId = 1,
-                            ModelsId = 7
-                        },
-                        new
-                        {
-                            EquipmentsId = 2,
-                            ModelsId = 7
-                        },
-                        new
-                        {
-                            EquipmentsId = 3,
-                            ModelsId = 7
                         });
                 });
 
@@ -539,6 +420,51 @@ namespace AutoDealer.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SaleAnnouncements");
+                });
+
+            modelBuilder.Entity("EngineGearbox", b =>
+                {
+                    b.Property<int>("EnginesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GearboxesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EnginesId", "GearboxesId");
+
+                    b.HasIndex("GearboxesId");
+
+                    b.ToTable("EngineGearbox");
+                });
+
+            modelBuilder.Entity("EngineModel", b =>
+                {
+                    b.Property<int>("EnginesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModelsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EnginesId", "ModelsId");
+
+                    b.HasIndex("ModelsId");
+
+                    b.ToTable("EngineModel");
+                });
+
+            modelBuilder.Entity("EquipmentModel", b =>
+                {
+                    b.Property<int>("EquipmentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModelsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EquipmentsId", "ModelsId");
+
+                    b.HasIndex("ModelsId");
+
+                    b.ToTable("EquipmentModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -711,51 +637,6 @@ namespace AutoDealer.Data.Migrations
                     b.Navigation("Model");
                 });
 
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.IntermediateModels.EngineGearbox", b =>
-                {
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Engine", null)
-                        .WithMany()
-                        .HasForeignKey("EnginesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Gearbox", null)
-                        .WithMany()
-                        .HasForeignKey("GearboxesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.IntermediateModels.EngineModel", b =>
-                {
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Engine", null)
-                        .WithMany()
-                        .HasForeignKey("EnginesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Model", null)
-                        .WithMany()
-                        .HasForeignKey("ModelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AutoDealer.Entities.Models.Auto.IntermediateModels.EquipmentModel", b =>
-                {
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Equipment", null)
-                        .WithMany()
-                        .HasForeignKey("EquipmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AutoDealer.Entities.Models.Auto.Model", null)
-                        .WithMany()
-                        .HasForeignKey("ModelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("AutoDealer.Entities.Models.Auto.Model", b =>
                 {
                     b.HasOne("AutoDealer.Entities.Models.Auto.Brand", "Brand")
@@ -808,6 +689,51 @@ namespace AutoDealer.Data.Migrations
                     b.Navigation("Model");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EngineGearbox", b =>
+                {
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Engine", null)
+                        .WithMany()
+                        .HasForeignKey("EnginesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Gearbox", null)
+                        .WithMany()
+                        .HasForeignKey("GearboxesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EngineModel", b =>
+                {
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Engine", null)
+                        .WithMany()
+                        .HasForeignKey("EnginesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Model", null)
+                        .WithMany()
+                        .HasForeignKey("ModelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EquipmentModel", b =>
+                {
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Equipment", null)
+                        .WithMany()
+                        .HasForeignKey("EquipmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutoDealer.Entities.Models.Auto.Model", null)
+                        .WithMany()
+                        .HasForeignKey("ModelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
